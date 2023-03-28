@@ -17,13 +17,19 @@ app.get("/",(req,res)=>{
     res.send("Home Page")
 });
 
-app.listen(process.env.port,async(req,res)=>{
+const connectDB = async () => {
     try{
-       await connection
-       console.log("connected to database");
-    }
-    catch(err){
-    console.log(`error while connecting to port ${process.env.port}`)
-    }
-    console.log("server is running")
+        await connection
+        console.log("connected to database");
+     }
+     catch(err){
+     console.log(`error while connecting to port ${process.env.port}`)
+     }
+  }
+
+  connectDB().then(() => {
+    app.listen(process.env.port,()=>{
+    
+        console.log("server is running")
+    })
 })
