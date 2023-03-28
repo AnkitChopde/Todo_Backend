@@ -1,6 +1,7 @@
 const express = require("express");
 const connection = require("./configs/db");
 require('dotenv').config();
+const bodyParser = require("body-parser"); 
 var cors = require('cors')
 const authenticate = require("./middlewares/auth.middleware");
 const todoRouter = require("./routes/todo.routes");
@@ -11,25 +12,20 @@ app.use(express.json());
 app.use(cors())
 // app.use(authenticate)
 todoRouter.use(authenticate)
+todoRouter.use(bodyParser.json())
 app.use("/users",userRouter)
 app.use("/todos",todoRouter)
 app.get("/",(req,res)=>{
     res.send("Home Page")
 });
 
-const connectDB = async () => {
+app.listen(process.env.port,async(req,res)=>{
     try{
-        await connection
-        console.log("connected to database");
-     }
-     catch(err){
-     console.log(`error while connecting to port ${process.env.port}`)
-     }
-  }
-
-  connectDB().then(() => {
-    app.listen(process.env.port,()=>{
-    
-        console.log("server is running")
-    })
+       await connection
+       console.log("connected to database");
+    }
+    catch(err){
+    console.log(`error while connecting to port ${process.env.port}`)
+    }
+    console.log("server is running")
 })

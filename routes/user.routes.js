@@ -32,7 +32,7 @@ userRouter.post("/login",async(req,res)=>{
         if(user){
             bcrypt.compare(pass, user.pass,(err, result)=> {
                if(result){
-                res.status(200).send({"msg":"Login Successfull","token": jwt.sign({ "userID":user._id }, 'ankesh',{ expiresIn: '3h' })})
+                res.status(200).send({"msg":"Login Successfull","token": jwt.sign({ "userID":user._id }, 'ankesh',{ expiresIn: '7d' })})
                }else{
                 res.status(400).send({"msg":"Wrong Credentials"})
                }
